@@ -1,0 +1,99 @@
+.jobBlock {
+    width: 100%;
+    vertical-align: top;
+    display: inline-block;
+    padding: 10px 0px 10px 0px;
+}
+
+.largeFont {
+    font-size: 20px;
+}
+
+.jobBlock .title {
+    font-weight: bold;
+}
+
+.jobBlock .date {
+    float: right;
+}
+
+.jobBlock .location {
+    float: right;
+}
+
+.jobBlock .company {
+    float: left;
+}
+
+.sectionLine {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #CFCFCF;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 30px;
+    padding: 15px 0px 0px 0px;
+    text-align: center;
+}
+
+.contactBlock {
+    padding: 15px 0px 0px 0px;
+    text-align: center;
+}
+
+.projectName {
+    font-weight: bold;
+    padding: 15px 0px 5px 0px
+}
+
+.skillHeading {
+    font-weight: bold;
+}
+
+.skillDescription {
+}
+
+.sectionTitle {
+    font-weight: bold;
+    font-size: 25px;
+    padding: 15px 0px 0px 0px
+}
+
+body {
+    background: #EEEEEE;
+    font: 17px sans-serif;
+    line-height: 1.4;
+    margin: 40px 0;
+}
+
+em {
+    color: #999;
+}
+p {
+    line-height: 1.4;
+}
+ul {
+    padding-left: 1.5em;
+    margin-bottom: 0;
+    list-style-position: outside;
+}
+li {
+    margin-bottom: 2px;
+}
+a {
+    text-decoration: none;
+}
+
+#resume {
+    margin: 0 auto;
+    max-width: 1024px;
+    padding: 80px 100px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 4px #aaa;
+    -webkit-box-shadow: 2px 2px 4px #aaa;
+}
