@@ -1,5 +1,5 @@
 ;;; resume-html.el --- provides resume html generation -*- lexical-binding: t; -*-
-;
+                                        ;
 ;; Copyright (C) 2025 Andrew Peck
 
 ;; This file is not part of GNU Emacs.
@@ -130,60 +130,37 @@
      "</div>")))
 
 (defun resume-make-html (contact-info jobs projects skills project-intro educations)
-  (f-write-text (string-join
-                 `(,resume--html-header
-                   ,(resume--html-contact-info contact-info)
+  (f-write-text
+   (string-join
+    `(,resume--html-header
+      ,(resume--html-contact-info contact-info)
 
-                   ,(resume--html-section "Skills")
-                   "<div style=\"text-align: justify;\">"
-                   "<ul>"
-                   ,(string-join (mapcar #'resume--html-skill skills) "\n")
-                   "</ul>"
-                   "</div>"
+      ,(resume--html-section "Skills")
+      "<div style=\"text-align: justify;\">"
+      "<ul>"
+      ,(string-join (mapcar #'resume--html-skill skills) "\n")
+      "</ul>"
+      "</div>"
 
-                   ,(resume--html-section "Job History")
-                   ,(string-join (mapcar #'resume--html-job jobs) "\n")
+      ,(resume--html-section "Job History")
+      ,(string-join (mapcar #'resume--html-job jobs) "\n")
 
-                   ,(resume--html-section "Education")
-                   ,(string-join (mapcar #'resume--html-education educations) "\n")
+      ,(resume--html-section "Education")
+      ,(string-join (mapcar #'resume--html-education educations) "\n")
 
-                   ,(resume--html-section "Selected Projects")
-                   "<div style=\"text-align: justify;\">"
-                   "<div>"
-                   ,project-intro
-                   "</div>"
-                   ,(string-join (mapcar #'resume--html-project projects) "\n")
-                   "</div>"
-                   ,resume--html-trailer)
-                 "\n") 'utf-8 resume-html-file-name)
+      ,(resume--html-section "Selected Projects")
+      "<div style=\"text-align: justify;\">"
+      "<div>"
+      ,project-intro
+      "</div>"
+      ,(string-join (mapcar #'resume--html-project projects) "\n")
+      "</div>"
+      ,resume--html-trailer) "\n")
+   'utf-8
+   resume-html-file-name)
 
   (f-write-text resume-css 'utf-8 resume-css-file-name))
 
-(defun resume--latex-header ()
-  (string-join  '(
-                  "\\documentclass[11pt,letterpaper]{article}"
-                  "\\usepackage{fmtcount}"
-                  "\\usepackage{ifthen}"
-                  "\\usepackage{anysize}"
-                  "\\usepackage{url}"
-                  "\\usepackage[colorlinks=false, linkcolor=black, hidelinks, urlcolor=blue,  citecolor=blue, bookmarks=true]{hyperref}"
-                  "\\usepackage{xcolor}"
-                  "\\usepackage{enumitem}"
-                  "\\setlist{leftmargin=6.5mm}"
-                  "\\renewcommand{\\familydefault}{\\sfdefault}"
-                  "\\renewcommand{\\labelitemi}{$\\bullet$}"
-                  "\\renewcommand{\\labelitemii}{-}"
-                  "\\renewcommand{\\labelitemiii}{$\\diamond$}"
-                  "\\pagenumbering{gobble} % no numbering"
-                  "\\marginsize{2cm}{2cm}{0cm}{1cm}"
-                  "\\usepackage{environ,etoolbox}"
-                  "\\input{jobs.tex}"
-                  "\\excludecomment{cv}"
-                  "\\definecolor{mygray}{RGB}{31,31,31}"
-                  "\\newcommand{\\yearsago}[1]{\\the\\numexpr \\year - #1 \\relax}"
-                  "\\begin{document}"
-                  "\\color{mygray}"
-                  ) "\n"))
 
 (provide 'resume-html)
 ;;; resume-html.el ends here

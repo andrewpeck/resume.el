@@ -1,0 +1,70 @@
+\usepackage{enumitem}
+
+\newcommand\specialcomment[3]{%
+  \newtoggle{#1}\toggletrue{#1}
+  \NewEnviron{#1}{\iftoggle{#1}{\BODY}{}}
+}
+
+\specialcomment{cv}{}{}
+
+\parskip 1pt
+
+\newcommand{\project}[2]
+{
+  \setlength{\topsep}{3pt}%
+  \setlength{\partopsep}{5pt}%
+  \begin{tabbing}
+    \large \textbf{#1} \` % \normalsize{\textit{#2}}
+  \end{tabbing}
+}
+
+\newcommand{\job}[4]
+{
+  \setlength{\topsep}{3pt}%
+  \setlength{\partopsep}{0pt}%
+  \begin{tabbing}
+    \textbf{#3} \` \small{#2}
+    \ifthenelse {\equal{#1}{} \and \equal{#4}{}}
+    {}
+    {\\{\normalsize #1} \` \normalsize \small{#4}}
+  \end{tabbing}
+}
+
+\newcommand{\heading}[2]{
+  \vspace{-10pt}
+  \subsection*{#1}
+  \vspace{-15pt}
+  \rule{\linewidth}{.5pt}
+  \vspace{-12pt}
+  #2
+}
+
+\newcommand{\skill}[2]
+{
+  \noindent
+  \textbf{#1:} {#2}
+}
+
+\newcommand{\pub}[2]
+{
+  \begin{itemize}
+    \item \textit{#1}. {#2}
+  \end{itemize}
+}
+
+\newcommand{\email}[1]
+{
+  \href{mailto:#1}{#1}
+}
+
+\newcommand{\name}[7]
+{
+  \begin{center}
+    {\huge \textbf{#1}} \\
+    \vspace {0.1em}
+    {\large #2} \\
+    \vspace{5pt}
+    #4~~\textbullet~~\email{#5}~~\textbullet~~#6~~\textbullet~~#7
+    \vspace{4pt}
+  \end{center}
+}
