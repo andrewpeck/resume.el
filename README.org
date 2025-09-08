@@ -1,0 +1,82 @@
+* resume.el
+
+This package provides some simple infrastructure for generating LaTex and HTML resumes from an elisp datastructure. Quite opinionated and special purpose (for me) but if you aren't too picky or share my opinions or are willing to hack a bit it should work for you as well.
+
+What problem does this solve? I wanted both HTML and PDF versions of the same resume.
+
+And of course the best way to do this is in emacs...
+
+For real examples see:
+
+- https://andrewpeck.xyz/resume.html
+- https://andrewpeck.xyz/resume.pdf
+
+** Usage
+
+#+BEGIN_SRC emacs-lisp
+(let ((contact-info
+       '(:name "Michael Pemulis"
+         :title "Tennis Coach"
+         :phone "617-555-9249"
+         :address "103 Harvard Ave, Allston, MA"
+         :email "mike@enfield.com"
+         :github "https://github.com/michaelpemulis"
+         :linkedin "https://www.linkedin.com/in/michael-pemulis-b7220014/"))
+
+      (skills
+       '(
+         (:skill "Tennis:"
+          :note "experienced tennis player and coach.")
+
+         (:skill "Substance Procurement & Distribution"
+          :note "Adept at the acquisition and discreet redistribution of controlled and semi-controlled substances.")
+
+         (:skill "Mathematics & Chemistry"
+          :note "Exceptionally strong in applied math and street chemistry (including but not limited to molar conversions, pharmacokinetics, and the baking of impossibly potent DMZ into baked goods).")
+
+         (:skill "Psychological Manipulation:"
+          :note "Strong understanding of authority structures and how to circumvent them with a grin.")
+
+         (:skill "Conflict Resolution"
+          :note "Resolves problems before they're problems (or makes them someone else's).")))
+
+       (jobs
+        '((:company "Enfield Tennis Academy"
+           :location "Enfield, MA"
+           :title "Head Coach"
+           :dates "August 2015 -- Present")))
+
+       (schools
+        '((:degree "High School Diploma"
+           :date "Graduated December 2009"
+           :university "Enfield Tennis Academy"
+           :gpa "3.5 / 4.0 GPA")))
+
+       (project-intro "I have worked on a large variety of projects.")
+
+       (projects
+        `((:project "ETA Underground Drug Distribution Network"
+
+           :skills "Founder, logistics director, quality control officer"
+
+           :tasks ("Built and managed a decentralized network of student clients"
+                   "Maintained discipline among buyers via intimidation and reputation"
+                   "Practiced highly advanced supply-chain logistics, including cross-campus stashing techniques"))
+
+          (:project "Tennis Hustling and Psychological Warfare"
+
+           :skills "Practitioner & Provocateur"
+
+           :tasks ("Known for trash talk laced with classical references and obscenities"
+                   "Considered the “tactical rat” of the ETA courts")))))
+      (resume-make contact-info jobs projects skills project-intro schools))
+
+#+END_SRC
+
+*** Tex Output
+
+[[file:images/resume-tex.png]]
+
+*** HTML Output
+
+[[file:images/resume-web.png]]
