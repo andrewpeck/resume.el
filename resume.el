@@ -32,8 +32,8 @@
 
 (defun resume-make (contact-info jobs projects skills project-intro educations)
   "Generate HTML and Latex resume documents."
-  (resume-make-latex contact-info jobs projects skills project-intro schools)
-  (resume-make-html contact-info jobs projects skills project-intro schools)
+  (resume-make-latex contact-info jobs projects skills project-intro educations)
+  (resume-make-html contact-info jobs projects skills project-intro educations)
   ;; TODO: copy css file over also
   )
 

@@ -19,13 +19,16 @@
 ;;
 ;;; Code:
 
+(require 'dash)
+(require 'f)
+
 (defvar resume-tex-file-name
   "resume.tex")
 
-(setq resume-jobs
+(defvar resume-jobs
       (f-read-text "jobs.tex"))
 
-(setq resume--latex-header
+(defvar resume--latex-header
       (string-join
        `("\\documentclass[11pt,letterpaper]{article}"
          "\\usepackage{fmtcount}"
@@ -56,68 +59,68 @@
                (string-replace "&" "\\&")
                (s-replace-regexp "[\n\r\s]+" " ")))
 
-(defun resume--latex-project (project)
+(defun resume--latex-project (project-info)
   "Format a single PROJECT as LaTeX."
-  (concat
-   (format "\\project{%s}\n{%s}\n"
-           (resume--latexify (plist-get project :project))
-           (resume--latexify (plist-get project :skills)))
-   "\\begin{itemize}\n"
-   (apply #'concat
-          (mapcar (lambda (x) (format "\\item %s\n" (resume--latexify x)))
-                  (plist-get project :tasks)))
-   "\\end{itemize}\n"))
+  (-let (((&plist :project :skills :tasks) project-info))
+    (concat
+     (format "\\project{%s}\n{%s}\n"
+             (resume--latexify project)
+             (resume--latexify skills))
+     "\\begin{itemize}\n"
+     (apply #'concat
+            (mapcar (lambda (x) (format "\\item %s\n" (resume--latexify x))) tasks))
+     "\\end{itemize}\n")))
 
-(defun resume--latex-skill (skill)
+(defun resume--latex-skill (skill-info)
   "Format a single SKILL as LaTeX."
-  (format "\\item \\textbf{%s:} %s\n"
-          (resume--latexify (plist-get skill :skill))
-          (resume--latexify (plist-get skill :note))))
+  (-let (((&plist :skill :note) skill-info))
+    (format "\\item \\textbf{%s:} %s\n"
+            (resume--latexify skill)
+            (resume--latexify note))))
 
 (defun resume--latex-education (education)
   "Format a single EDUCATION as LaTeX.
 
 Re-uses the same base format as a job."
-  (resume--latex-job
-   `(:company  ,(plist-get education :university)
-     :location ,(plist-get education :date)
-     :title    ,(plist-get education :degree)
-     :dates    ,(plist-get education :gpa))))
+  (-let (((&plist :university :date :degree :gpa) education))
+    (resume--latex-job
+     `(:company  ,university
+       :location ,date
+       :title    ,degree
+       :dates    ,gpa))))
 
 (defun resume--latex-job (job)
   "Format a single latex JOB."
-  (format "\\job\n{%s}\n{%s}\n{%s}\n{%s}\n"
-          (plist-get job :company)
-          (plist-get job :location)
-          (plist-get job :title)
-          (plist-get job :dates)))
+  (-let (((&plist :company :location :title :dates) job))
+    (format "\\job\n{%s}\n{%s}\n{%s}\n{%s}\n"
+            company location title dates)))
 
 (defun resume--latex-href (link name)
   (format "\\href{%s}{%s}" link name))
 
 (defun resume--latex-contact-info (contact-info)
   ""
-  (string-join
-   `(
-     "\\begin{center}"
-     ,(format "{\\huge \\textbf{%s}} \\\\"    (plist-get contact-info :name))
-     "\\vspace {0.1em}"
-     ,(format  "{\\large %s} \\\\"    (plist-get contact-info :title))
-     "\\vspace{5pt}"
-     ,(plist-get contact-info :address)
-     ,(string-join
+  (-let (((&plist :name :title :address :phone :email :github :linkedin) contact-info))
+    (string-join
+     `(
+       "\\begin{center}"
+       ,(format "{\\huge \\textbf{%s}} \\\\" name)
+       "\\vspace {0.1em}"
+       ,(format  "{\\large %s} \\\\" title)
+       "\\vspace{5pt}"
+       ,address
+       ,(string-join
 
-       (list
-        (plist-get contact-info :phone)
-        (resume--latex-href (concat "mailto:" (plist-get contact-info :email))
-                            (plist-get contact-info :email))
-        (resume--latex-href (plist-get contact-info :github) "Github")
-        (resume--latex-href (plist-get contact-info :linkedin) "LinkedIn"))
+         (list
+          phone
+          (resume--latex-href (concat "mailto:" email) email)
+          (resume--latex-href github "Github")
+          (resume--latex-href linkedin "LinkedIn"))
 
-       "~~\\textbullet~~")
+         "~~\\textbullet~~")
 
-     "\\vspace{4pt}"
-     "\\end{center}") "\n")))
+       "\\vspace{4pt}"
+       "\\end{center}") "\n")))
 
 (defun resume-make-latex (contact-info jobs projects skills project-intro educations)
   (f-write-text

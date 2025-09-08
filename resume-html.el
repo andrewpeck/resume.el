@@ -19,6 +19,9 @@
 ;;
 ;;; Code:
 
+(require 'dash)
+(require 'f)
+
 (defvar resume-css
   (f-read-text "resume.css"))
 
@@ -40,39 +43,35 @@
 (defvar resume--html-trailer
   "</div></body></html>")
 
-(defun resume--html-project (project)
+(defun resume--html-project (project-info)
   "Format a single PROJECT into an html div."
-  (concat
-   "<div>"
-   (format "<div class=\"projectName\">%s</div>" (plist-get project :project))
-   "<ul>"
-   (apply #'concat
-          (mapcar (lambda (x) (format "<li>%s</li>" x))
-                  (plist-get project :tasks)))
-   "</ul>"
-   "</div>"))
+  (-let (((&plist :project :tasks) project-info))
+    (concat
+     "<div>"
+     (format "<div class=\"projectName\">%s</div>" project)
+     "<ul>"
+     (apply #'concat
+            (mapcar (lambda (x) (format "<li>%s</li>" x)) tasks))
+     "</ul>"
+     "</div>")))
 
-(defun resume--html-skill (skill)
+(defun resume--html-skill (skill-info)
   ""
-  (format "<li><span class=\"skillHeading\">%s:</span> <span class=\"skillDescription\">%s</span>"
-          (plist-get skill :skill)
-          (plist-get skill :note)))
+  (-let (((&plist :skill :note) skill-info))
+    (format "<li><span class=\"skillHeading\">%s:</span> <span class=\"skillDescription\">%s</span>"
+            skill note)))
 
 (defun resume--html-education (education)
   ""
-  (format "
+  (-let (((&plist :university :date :degree :gpa) education))
+    (format "
         <div class=\"jobBlock\">
            <span class=\"title\">%s</span>
            <span class=\"location\">%s</span>
            <br>
            <span class=\"company\">%s</span>
            <span class=\"date\">%s</span>
-        </div> "
-
-          (plist-get education :university)
-          (plist-get education :date)
-          (plist-get education :degree)
-          (plist-get education :gpa)))
+        </div> " university date degree gpa)))
 
 (defun resume--html-section (title)
   ""
@@ -82,7 +81,8 @@
 
 (defun resume--html-job (job)
   ""
-  (format "
+  (-let (((&plist :title :location :company :dates) job))
+    (format "
         <div class=\"jobBlock\">
            <span class=\"title\">%s</span>
            <span class=\"location\">%s</span>
@@ -90,12 +90,10 @@
            <span class=\"company\">%s</span>
            <span class=\"date\">%s</span>
         </div> "
-
-          (plist-get job :title)
-          (plist-get job :location)
-          (plist-get job :company)
-          (string-replace "--" "–" (plist-get job :dates))
-          ))
+            title
+            location
+            company
+            (string-replace "--" "–" dates))))
 
 (defun resume--html-contact-info (contact-info)
   ""
