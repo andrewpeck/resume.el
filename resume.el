@@ -30,6 +30,7 @@
 (require 'resume-tex)
 (require 'resume-html)
 
+;;;###autoload
 (defun resume-make (contact-info jobs projects skills project-intro educations)
   "Generate HTML and Latex resume documents."
   (resume-make-latex contact-info jobs projects skills project-intro educations)
