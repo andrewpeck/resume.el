@@ -66,7 +66,7 @@
      (format "\\project{%s}\n{%s}\n"
              (resume--latexify project)
              (resume--latexify skills))
-     "\\begin{itemize}\n"
+     "\\begin{itemize}[noitemsep]\n"
      (apply #'concat
             (mapcar (lambda (x) (format "\\item %s\n" (resume--latexify x))) tasks))
      "\\end{itemize}\n")))
