@@ -100,7 +100,7 @@ Re-uses the same base format as a job."
 
 (defun resume--latex-contact-info (contact-info)
   ""
-  (-let (((&plist :name :title :address :phone :email :github :linkedin) contact-info))
+  (-let (((&plist :name :title :address :phone :email :github :linkedin :projects) contact-info))
     (string-join
      `(
        "\\begin{center}"
@@ -108,14 +108,16 @@ Re-uses the same base format as a job."
        "\\vspace {0.1em}"
        ,(format  "{\\large %s} \\\\" title)
        "\\vspace{5pt}"
-       ,address
+       ,address "\n"
        ,(string-join
 
          (list
           phone
           (resume--latex-href (concat "mailto:" email) email)
           (resume--latex-href github "Github")
-          (resume--latex-href linkedin "LinkedIn"))
+          (resume--latex-href linkedin "LinkedIn")
+          (resume--latex-href projects "Projects")
+          )
 
          "~~\\textbullet~~")
 
@@ -140,7 +142,8 @@ Re-uses the same base format as a job."
       "\\heading{Education}"
       ,(string-join (mapcar #'resume--latex-education educations) "\n")
 
-      "\\heading{Selected Projects}"
+      "\\heading{Selected Projects}\n\n\\noindent"
+      ,project-intro
       ,(string-join (mapcar #'resume--latex-project projects) "\n")
       "\\end{document}\n") "\n")
    'utf-8

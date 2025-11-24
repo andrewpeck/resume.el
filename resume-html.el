@@ -43,6 +43,13 @@
 (defvar resume--html-trailer
   "</div></body></html>")
 
+(defun resume-html--convert-tex-hrefs (str)
+  (replace-regexp-in-string
+   "\\\\href{\\(.*\\)}{\\(.*\\)}"
+   "<a href=\"\\1\">\\2</a>"
+   str
+   ))
+
 (defun resume--html-project (project-info)
   "Format a single PROJECT into an html div."
   (-let (((&plist :project :tasks) project-info))
@@ -149,7 +156,7 @@
       ,(resume--html-section "Selected Projects")
       "<div style=\"text-align: justify;\">"
       "<div>"
-      ,project-intro
+      ,(resume-html--convert-tex-hrefs project-intro)
       "</div>"
       ,(string-join (mapcar #'resume--html-project projects) "\n")
       "</div>"
@@ -158,7 +165,6 @@
    resume-html-file-name)
 
   (f-write-text resume-css 'utf-8 resume-css-file-name))
-
 
 (provide 'resume-html)
 ;;; resume-html.el ends here
