@@ -1,6 +1,6 @@
 ;;; resume-tex.el --- provides resume latex generation -*- lexical-binding: t; -*-
                                         ;
-;; Copyright (C) 2025 Andrew Peck
+;; Copyright (C) 2025-2026 Andrew Peck
 
 ;; This file is not part of GNU Emacs.
 ;;
@@ -17,10 +17,15 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>
 ;;
+;;; Commentary:
+;;
+;; Functions for generating an html resume.
+;;
 ;;; Code:
 
 (require 'dash)
 (require 'f)
+(require 'subr-x)
 
 (defvar resume-tex-file-name
   "resume.tex")
@@ -55,12 +60,13 @@
        "\n"))
 
 (defun resume--latexify (str)
+  "Transform STR by replacing special characters for LaTeX compatibility."
   (thread-last str
                (string-replace "&" "\\&")
                (s-replace-regexp "[\n\r\s]+" " ")))
 
 (defun resume--latex-project (project-info)
-  "Format a single PROJECT as LaTeX."
+  "Format a single PROJECT-INFO as LaTeX."
   (-let (((&plist :project :skills :tasks) project-info))
     (concat
      (format "\\project{%s}\n{%s}\n"
@@ -72,7 +78,7 @@
      "\\end{itemize}\n")))
 
 (defun resume--latex-skill (skill-info)
-  "Format a single SKILL as LaTeX."
+  "Format a single SKILL-INFO as LaTeX."
   (-let (((&plist :skill :note) skill-info))
     (format "\\item \\textbf{%s:} %s\n"
             (resume--latexify skill)
@@ -96,10 +102,18 @@ Re-uses the same base format as a job."
             company location title dates)))
 
 (defun resume--latex-href (link name)
+  "Return a LaTeX href string using LINK and NAME.
+
+Format the string as `\href{LINK}{NAME}'."
   (format "\\href{%s}{%s}" link name))
 
 (defun resume--latex-contact-info (contact-info)
-  ""
+  "Generate LaTeX formatted contact information from CONTACT-INFO plist.
+
+CONTACT-INFO should be a plist containing the keys :name, :title, :address,
+:phone, :email, :github, :linkedin, and :projects. Returns a LaTeX string
+centered and formatted with the provided details, including hyperlinks
+for email, GitHub, LinkedIn, and projects."
   (-let (((&plist :name :title :address :phone :email :github :linkedin :projects) contact-info))
     (string-join
      `(
@@ -125,6 +139,11 @@ Re-uses the same base format as a job."
        "\\end{center}") "\n")))
 
 (defun resume-make-latex (contact-info jobs projects skills project-intro educations)
+  "Generate a LaTeX formatted resume using given details.
+
+CONTACT-INFO, JOBS, PROJECTS, SKILLS, and EDUCATIONS are used to fill in
+the respective sections of the resume. PROJECT-INTRO is an introductory
+text for the projects section. The output is saved to `resume-tex-file-name'."
   (f-write-text
    (string-join
     `(,resume--latex-header
