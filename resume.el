@@ -5,7 +5,7 @@
 ;; Author: Andrew Peck <peckandrew@gmail.com>
 ;; URL: https://github.com/andrewpeck/resume.el
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "27.1") (dash "2.0") (f "0.20") (s "1.12"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
