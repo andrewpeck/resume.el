@@ -42,7 +42,7 @@
 <head>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"resume.css\">
 </head>
-</body>
+<body>
 <div id=\"resume\">\n"
   "Resume HTML header.")
 
