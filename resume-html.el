@@ -150,6 +150,7 @@ Each online contact link is wrapped in an <a> tag."
      (when address
        nil)
 
+     "<div class=\"contactBlock\">"
      (when phone
        (format "<span class=\"phone\">%s</span>" phone))
 
