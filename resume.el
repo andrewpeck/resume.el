@@ -59,7 +59,6 @@ Generate HTML and LaTeX resume documents from provided details.
 
 Takes CONTACT-INFO, JOBS, PROJECTS, SKILLS, PROJECT-INTRO, and EDUCATIONS
 as arguments to create resumes in both formats."
-  ;; TODO: copy css file over also
   (resume-make-latex contact-info jobs projects skills project-intro educations)
   (resume-make-html contact-info jobs projects skills project-intro educations))
 
