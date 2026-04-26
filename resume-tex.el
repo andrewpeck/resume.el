@@ -19,7 +19,7 @@
 ;;
 ;;; Commentary:
 ;;
-;; Functions for generating an html resume.
+;; Functions for generating a LaTeX resume.
 ;;
 ;;; Code:
 
