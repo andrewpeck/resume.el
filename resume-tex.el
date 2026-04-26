@@ -25,6 +25,7 @@
 
 (require 'dash)
 (require 'f)
+(require 's)
 (require 'subr-x)
 
 (defvar resume-tex-file-name
