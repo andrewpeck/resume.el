@@ -31,7 +31,7 @@
   "resume.tex")
 
 (defvar resume-jobs
-      (f-read-text "jobs.tex"))
+  (f-read-text (expand-file-name "jobs.tex" (file-name-directory (or load-file-name buffer-file-name)))))
 
 (defvar resume--latex-header
       (string-join

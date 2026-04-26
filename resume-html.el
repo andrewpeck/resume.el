@@ -27,7 +27,7 @@
 (require 'f)
 
 (defvar resume-css
-  (f-read-text "resume.css")
+  (f-read-text (expand-file-name "resume.css" (file-name-directory (or load-file-name buffer-file-name))))
   "CSS to include in the generated html.")
 
 (defvar resume-html-file-name "resume.html"
