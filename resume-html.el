@@ -55,7 +55,7 @@
 
 Replaces instances of `\\\\href{url}{text}' with `<a href=\"url\">text</a>'."
   (replace-regexp-in-string
-   "\\\\href{\\(.*\\)}{\\(.*\\)}"
+   "\\\\href{\\(.*?\\)}{\\(.*?\\)}"
    "<a href=\"\\1\">\\2</a>"
    str))
 
