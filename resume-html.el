@@ -151,23 +151,21 @@ Each online contact link is wrapped in an <a> tag."
        nil)
 
      (when phone
-       (concat
-        "<div class=\"contactBlock\">"
-        (format "<span class=\"phone\">%s</span>" phone)))
+       (format "<span class=\"phone\">%s</span>" phone))
 
      (when email
        (concat
-        (format "<span class=\"divider\"> • </span>")
+        "<span class=\"divider\"> • </span>"
         (format "<span class=\"email\"><a href=\"mailto:%s\">%s</a></span>" email email)))
 
      (when github
        (concat
-        (format "<span class=\"divider\"> • </span>")
+        "<span class=\"divider\"> • </span>"
         (format "<span class=\"email\"><a href=\"%s\">Github</a></span>" github)))
 
      (when linkedin
        (concat
-        (format "<span class=\"divider\"> • </span>")
+        "<span class=\"divider\"> • </span>"
         (format "<span class=\"email\"><a href=\"%s\">Linkedin</a></span>" linkedin)))
      "</div>")))
 
