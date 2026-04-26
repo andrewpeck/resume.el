@@ -128,15 +128,13 @@ for email, GitHub, LinkedIn, and projects."
        "\\vspace{5pt}"
        ,(resume--latexify address) "\n"
        ,(string-join
-
-         (list
-          phone
-          (resume--latex-href (concat "mailto:" email) email)
-          (resume--latex-href github "Github")
-          (resume--latex-href linkedin "LinkedIn")
-          (resume--latex-href projects "Projects")
-          )
-
+         (remove nil
+                 (list
+                  (when phone (resume--latexify phone))
+                  (when email (resume--latex-href (concat "mailto:" email) email))
+                  (when github (resume--latex-href github "Github"))
+                  (when linkedin (resume--latex-href linkedin "LinkedIn"))
+                  (when projects (resume--latex-href projects "Projects"))))
          "~~\\textbullet~~")
 
        "\\vspace{4pt}"
