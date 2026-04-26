@@ -100,7 +100,10 @@ Re-uses the same base format as a job."
   "Format a single latex JOB."
   (-let (((&plist :company :location :title :dates) job))
     (format "\\job\n{%s}\n{%s}\n{%s}\n{%s}\n"
-            company location title dates)))
+            (resume--latexify company)
+            (resume--latexify location)
+            (resume--latexify title)
+            (resume--latexify dates))))
 
 (defun resume--latex-href (link name)
   "Return a LaTeX href string using LINK and NAME.
@@ -119,11 +122,11 @@ for email, GitHub, LinkedIn, and projects."
     (string-join
      `(
        "\\begin{center}"
-       ,(format "{\\huge \\textbf{%s}} \\\\" name)
+       ,(format "{\\huge \\textbf{%s}} \\\\" (resume--latexify name))
        "\\vspace {0.1em}"
-       ,(format  "{\\large %s} \\\\" title)
+       ,(format  "{\\large %s} \\\\" (resume--latexify title))
        "\\vspace{5pt}"
-       ,address "\n"
+       ,(resume--latexify address) "\n"
        ,(string-join
 
          (list
