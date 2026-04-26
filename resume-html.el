@@ -82,7 +82,7 @@ SKILL-INFO is a plist containing `:skill' and `:note' keys. Return a
 string representing an HTML list item with the skill heading and its
 description."
   (-let (((&plist :skill :note) skill-info))
-    (format "<li><span class=\"skillHeading\">%s:</span> <span class=\"skillDescription\">%s</span>"
+    (format "<li><span class=\"skillHeading\">%s:</span> <span class=\"skillDescription\">%s</span></li>"
             skill note)))
 
 (defun resume--html-education (education)
